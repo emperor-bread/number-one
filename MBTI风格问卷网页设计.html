@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<title>迷你人格测试</title>
+<style>
+  body{font-family:system-ui;max-width:600px;margin:40px auto;padding:0 16px}
+  .q{display:none}.q.active{display:block}
+  button{margin-top:12px;padding:10px 16px}
+  .opt{display:block;margin:8px 0;padding:10px;border:1px solid #ccc;border-radius:8px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+const questions = [
+  { t:"聚会后你通常？",
+    a:[{t:"很充能", s:{E:1}},{t:"想一个人待着", s:{I:1}}] },
+  { t:"你更相信？",
+    a:[{t:"事实和细节", s:{S:1}},{t:"直觉和可能", s:{N:1}}] },
+  { t:"做决定时你更？",
+    a:[{t:"讲逻辑", s:{T:1}},{t:"看感受", s:{F:1}}] },
+  { t:"你的生活更？",
+    a:[{t:"有规划", s:{J:1}},{t:"随遇而安", s:{P:1}}] },
+]
+
+const score = {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0}
+let i = 0
+const app = document.getElementById('app')
+
+function render(){
+  if(i >= questions.length){ return showResult() }
+  const q = questions[i]
+  app.innerHTML = `
+    <div class="q active">
+      <h3>Q${i+1}. ${q.t}</h3>
+      ${q.a.map((o,idx)=>`<div class="opt" onclick="choose(${idx})">${o.t}</div>`).join('')}
+    </div>`
+}
+
+function choose(idx){
+  const s = questions[i].a[idx].s
+  for(const k in s) score[k]+=s[k]
+  i++
+  render()
+}
+
+function showResult(){
+  const type =
+    (score.E>=score.I?'E':'I') +
+    (score.S>=score.N?'S':'N') +
+    (score.T>=score.F?'T':'F') +
+    (score.J>=score.P?'J':'P')
+  const desc = {
+    INTJ:"建筑师：独立、有战略感",
+    ENFP:"倡导者：热情、爱可能性",
+    ISTP:"工匠：冷静、动手能力强",
+    ESTJ:"总经理：务实、有秩序"
+  }
+  app.innerHTML = `
+    <h2>你的人格类型是：${type}</h2>
+    <p>${desc[type] || "独特组合：你不能被简单定义"}</p>
+    <button onclick="location.reload()">再测一次</button>`
+}
+
+render()
+</script>
+</body>
+</html>
