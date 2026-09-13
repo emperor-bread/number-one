@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人格药方铺 · 测测你是哪味药</title>
+    <style>
+        :root {
+            --bg-color: #f5f0e6;
+            --card-color: #fffaf0;
+            --ink-color: #3e2723;
+            --accent-color: #8b4513;
+            --border-color: #d3c4b8;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--ink-color);
+            font-family: "Songti SC", "SimSun", "Source Han Serif CN", serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            background: var(--card-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6d5d53;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+
+        .question-block {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .question-title {
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .options label {
+            display: block;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .options label:hover {
+            background-color: #fdf6ec;
+            border-color: var(--accent-color);
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+            accent-color: var(--accent-color);
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            font-family: inherit;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #6b3410;
+        }
+
+        /* 结果页样式 */
+        #result {
+            display: none;
+        }
+
+        .result-header {
+            text-align: center;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .result-type {
+            font-size: 1.8em;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .result-subtitle {
+            font-size: 1.1em;
+            margin-top: 5px;
+            color: #5d4037;
+        }
+
+        .result-section {
+            margin-bottom: 20px;
+        }
+
+        .result-section h3 {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 10px;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.85em;
+            color: #8d7c74;
+        }
+
+        .restart-btn {
+            background-color: #556b2f;
+        }
+
+        .restart-btn:hover {
+            background-color: #3e4f22;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 问卷页 -->
+    <div id="quiz">
+        <h1>人格药方铺</h1>
+        <p class="subtitle">
+            草木有药性，人有性情。<br>
+            回答十个问题，看看你的性格最像哪一味药。
+        </p>
+
+        <form id="quizForm">
+
+            <div class="question-block">
+                <div class="question-title">1. 朋友陷入低谷，你最本能的做法是？</div>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="A"> 帮他梳理问题，指出关键所在</label>
+                    <label><input type="radio" name="q1" value="B"> 默默陪着，听他说话，不急着给建议</label>
+                    <label><input type="radio" name="q1" value="C"> 拉他出门、换个环境，做点别的事</label>
+                    <label><input type="radio" name="q1" value="D"> 说几句有分量的话，让他突然想通</label>
+                    <label><input type="radio" name="q1" value="E"> 用自己的热情带动他，让他振作起来</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-title">2. 面对突发变故，你的第一反应是？</div>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="A"> 先冷静，弄清原因再行动</label>
+                    <label><input type="radio" name="q2" value="B"> 有点慌，但会先稳住自己情绪</label>
+                    <label><input type="radio" name="q2" value="C"> 马上行动，先把眼前的事处理掉</label>
+                    <label><input type="radio" name="q2" value="D"> 停下来观察，等看清局势再决定</label>
+                    <label><input type="radio" name="q2" value="E"> 迅速调整状态，努力适应变化</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-title">3. 你处理情绪的方式更接近？</div>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="A"> 自己想通，很少表达出来</label>
+                    <label><input type="radio" name="q3" value="B"> 找信任的人倾诉</label>
+                    <label><input type="radio" name="q3" value="C"> 通过运动、忙碌或转移注意力排解</label>
+                    <label><input type="radio" name="q3" value="D"> 换个角度想，一笑置之</label>
+                    <label><input type="radio" name="q3" value="E"> 憋在心里，等时间慢慢消化</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-title">4. 别人最常评价你哪一点？</div>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="A"> 清醒、理智、有主见</label>
+                    <label><input type="radio" name="q4" value="B"> 温柔、体贴、会照顾人</label>
+                    <label><input type="radio" name="q4" value="C"> 灵活、点子多、反应快</label>
+                    <label><input type="radio" name="q4" value="D"> 坚韧、能扛事、不轻易放弃</label>
+                    <label><input type="radio" name="q4" value="E"> 热情、有感染力、能带动气氛</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-title">5. 压力之下，你最容易出现的状态是？</div>
+                <div class="options">
+                    <label><input type="radio" name="q5" value="A"> 烦躁、易怒、看什么都不顺眼</label>
+                    <label><input type="radio" name="q5" value="B"> 疲惫、无力、什么都不想管</label>
+                    <label><input type="radio" name="q5" value="C"> 焦虑、紧绷、坐立难安</label>
+                    <label><input type="radio" name="q5" value="D"> 钻牛角尖、反复想同一件事</label>
+                    <label><input type="radio" name="q5" value="E"> 表面平静，但身体很僵硬</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-title">6. 你更向往哪种生活状态？</div>
+                <div class="options">
+                    <label><input type="radio" name="q6" value="A"> 清晰、有序、少干扰</label>
+                    <label><input type="radio" name="q6" value="B"> 安稳、温暖、有人陪伴</label>
+                    <label><input type="radio" name="q6" value="C"> 新鲜、自由、充满变化</label>
+                    <label><input type="radio" name="q6" value="D"> 踏实、有积累、长期稳定</label>
+                    <label><input type="radio" name="q6" value="E"> 热烈、充实、有挑战性</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-title">7. 你最大的内在优势是？</div>
+                <div class="options">
+                    <label><input type="radio" name="q7" value="A"> 看清本质，不被情绪左右</label>
+                    <label><input type="radio" name="q7" value="B"> 有耐心，能长期陪伴和坚持</label>
+                    <label><input type="radio" name="q7" value="C"> 思维灵活，总能找到新解法</label>
+                    <label><input type="radio" name="q7" value="D"> 行动力强，能推动事情前进</label>
+                    <label><input type="radio" name="q7" value="E"> 情绪稳定，是别人的依靠</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-title">8. 你最容易被哪种困境困住？</div>
+                <div class="options">
+                    <label><input type="radio" name="q8" value="A"> 混乱不清、没人说真话的局面</label>
+                    <label><input type="radio" name="q8" value="B"> 孤立无援、所有事都要自己扛</label>
+                    <label><input type="radio" name="q8" value="C"> 被规则卡住、无法突破瓶颈</label>
+                    <label><input type="radio" name="q8" value="D"> 犹豫不决、不知道如何选择</label>
+                    <label><input type="radio" name="q8" value="E"> 环境压抑、找不到出口</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-title">9. 在团队中，你通常扮演？</div>
+                <div class="options">
+                    <label><input type="radio" name="q9" value="A"> 判断者：负责纠偏和决策</label>
+                    <label><input type="radio" name="q9" value="B"> 协调者：负责照顾氛围和关系</label>
+                    <label><input type="radio" name="q9" value="C"> 破局者：负责打开新局或新思路</label>
+                    <label><input type="radio" name="q9" value="D"> 执行者：负责把事落地、扛住压力</label>
+                    <label><input type="radio" name="q9" value="E"> 稳定者：负责兜底和维持节奏</label>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-title">10. 如果给自己一句提醒，你更需要哪一句？</div>
+                <div class="options">
+                    <label><input type="radio" name="q10" value="A"> 不必事事正确，也可以允许自己柔软</label>
+                    <label><input type="radio" name="q10" value="B"> 你值得被照顾，不必总是独自支撑</label>
+                    <label><input type="radio" name="q10" value="C"> 想法重要，但持续行动更重要</label>
+                    <label><input type="radio" name="q10" value="D"> 慢一点没关系，稳比快更长久</label>
+                    <label><input type="radio" name="q10" value="E"> 热情需要边界，燃烧自己不如照亮别人</label>
+                </div>
+            </div>
+
+            <button type="button" onclick="calculateResult()">抓药 · 查看结果</button>
+        </form>
+    </div>
+
+    <!-- 结果页 -->
+    <div id="result">
+        <div class="result-header">
+            <div class="result-type" id="resType"></div>
+            <div class="result-subtitle" id="resSubtitle"></div>
+        </div>
+
+        <div class="result-section">
+            <h3>药性归经</h3>
+            <p id="resNature"></p>
+        </div>
+
+        <div class="result-section">
+            <h3>性格画像</h3>
+            <p id="resPersonality"></p>
+        </div>
+
+        <div class="result-section">
+            <h3>用药提醒</h3>
+            <p id="resAdvice"></p>
+        </div>
+
+        <button class="restart-btn" onclick="restartQuiz()">再测一次</button>
+
+        <div class="footer">
+            人格药方铺 · 此方仅供自省，不服来辩
+        </div>
+    </div>
+</div>
+
+<script>
+    // 计分逻辑
+    const scoreMap = {
+        'A': ['清热药', '平肝息风药'],
+        'B': ['补虚药'],
+        'C': ['解表药', '开窍药'],
+        'D': ['祛风湿药', '活血化瘀药'],
+        'E': ['温里药']
+    };
+
+    // 药方数据库（高度贴药效）
+    const herbData = {
+        '清热药': {
+            title: '清热药型人格',
+            subtitle: '性寒，味苦，善清泄降火',
+            nature: '性属寒凉，味多苦。主入气分、血分，善清热泻火、凉血解毒。如石膏、黄连之属，沉降下行，能除烦热。',
+            personality: '你天生清醒，像一剂寒凉之药，能一眼看穿混乱与虚火。别人在情绪里打转时，你已在寻找根源。你是人群里的“理智担当”，最擅长给过热的大脑降温。但寒凉易伤阳，你习惯用理性压制情绪，久而久之，自己也会觉得冷。',
+            advice: '清热贵在“中病即止”。你不必时刻做那个泼冷水的人。偶尔允许自己不清醒，允许情绪流过而不被分析，是对自己阳气最好的保护。'
+        },
+        '补虚药': {
+            title: '补虚药型人格',
+            subtitle: '味甘，性温平，善补益滋养',
+            nature: '性味甘温或甘平。主入脾、肺、心、肾经，善补气养血、滋阴助阳。如人参、黄芪、熟地之属，质润厚实，能填补虚损。',
+            personality: '你像一剂甘温的补药，是关系里的“土壤”。你温和、包容，擅长用耐心和陪伴去滋养周围。别人在你身边，总觉得安心、被托住。但甘味易壅滞，你太习惯“补别人”，却常常忘了补自己。你容易过度付出，导致“虚不受补”。',
+            advice: '补药最忌“闭门留寇”。照顾别人之前，先留一点甘味给自己。学会拒绝，学会喊累，你的滋养才能细水长流。'
+        },
+        '解表药': {
+            title: '解表药型人格',
+            subtitle: '味辛，善发散透邪',
+            nature: '性味辛温或辛凉。轻扬升浮，善走肌表，能发汗解表、透邪外出。如麻黄、薄荷之属，无孔不入，能开泄腠理。',
+            personality: '你像一剂辛散的解表药，轻扬升浮，最擅长打破僵局。当环境沉闷时，你总能第一个站出来，用行动或一句话把“窗户纸捅破”。你反应快、行动力强，是天生的破局者。但辛散易耗气，你容易浅尝辄止，忙起来就忘了收心。',
+            advice: '解表贵在“汗而勿伤”。你可以快，但也要学会停；你可以透，但也要学会藏。发散太过，正气易虚，记得给自己的能量留一点余量。'
+        },
+        '祛风湿药': {
+            title: '祛风湿药型人格',
+            subtitle: '辛苦温燥，善走窜通络',
+            nature: '性味辛苦，温或平。善祛风除湿、通络止痛。如独活、威灵仙之属，性善走窜，能行经脉、通痹阻。',
+            personality: '你像一剂祛风湿药，性善走窜，坚韧耐扛。你擅长在长期困境中一点点疏通，别人觉得难熬的环境，你往往能咬牙撑过去。你像藤蔓一样有韧性，能缠能绕，总能找到出路。但风药多燥烈，你习惯硬扛，容易把压力憋在身体里，变得僵硬。',
+            advice: '祛风湿贵在“通络不伤正”。你可以坚韧，但也要学会松劲；你可以疏通别人，但也要疏通自己。别让“燥性”伤了你的阴血。'
+        },
+        '温里药': {
+            title: '温里药型人格',
+            subtitle: '辛热，善温中散寒',
+            nature: '性味辛热。善温中散寒、回阳救逆。如附子、干姜之属，守而不走，能暖脏腑、通经脉，除沉寒痼冷。',
+            personality: '你像一剂辛热的温里药，是一团内在的“命门之火”。你热情、有能量，是人群里的“小火炉”。当气氛冰冷时，你总能用热情点燃大家。别人在你身边，总觉得被照亮、被带动。但辛热易伤阴，你习惯用热情掩盖疲惫，容易急躁冲动。',
+            advice: '温里贵在“守而不走”。你的热情很珍贵，但别让它烧干了自己。学会收摄能量，学会在热烈之后回归平静，才能久暖不衰。'
+        },
+        '活血化瘀药': {
+            title: '活血化瘀药型人格',
+            subtitle: '辛散苦泄，善行血通经',
+            nature: '性味辛散苦泄，温或平。善活血祛瘀、通经止痛。如川芎、丹参之属，能上行头目，下行血海，推陈致新。',
+            personality: '你像一剂活血化瘀药，辛散善行，最看不得事情卡住。你是关系里的“疏通工”，总能找到死结的线头，一语道破，一针见血。你直爽、通透，行动力强。但活血易破血，你的直率有时像药力太猛，容易“伤”到敏感的人。',
+            advice: '活血贵在“通而不伤”。你可以疏通别人，但也要温柔对待自己。不是所有结都要立刻解开，有时陪伴比解决更重要。活血不忘扶正，行血不忘止血。'
+        },
+        '平肝息风药': {
+            title: '平肝息风药型人格',
+            subtitle: '质重沉降，善平肝潜阳',
+            nature: '性味咸寒或甘平。质重沉降，善平肝潜阳、息风止痉。如石决明、天麻之属，介类潜阳，能镇纳浮越之气。',
+            personality: '你像一剂平肝息风药，质重沉降，像一块沉在水底的石头。你敏感、洞察力强，对情绪和细节极其敏锐。别人还在表面打转时，你已经看透了底层逻辑。你擅长“定”，是人群里的稳定器。但重镇易碍胃，你习惯向内收，容易紧绷、焦虑、想太多。',
+            advice: '平肝贵在“潜而不郁”。你可以敏锐，但也要学会放松；你可以洞察，但也要允许自己“看不清”。别让肝阳上亢，耗尽了你的阴血。'
+        },
+        '开窍药': {
+            title: '开窍药型人格',
+            subtitle: '辛香走窜，善开窍醒神',
+            nature: '性味辛香。善开窍醒神、辟秽化浊。如麝香、冰片之属，辛香走窜，无孔不入，能通诸窍之不利。',
+            personality: '你像一剂开窍药，辛香走窜，灵动非凡。你点子多、反应快，一句话就能点醒别人，是天生的开导者。当别人困在死胡同时，你总能给出一个意想不到的角度，让人豁然开朗。但辛香易耗气，你容易浮躁、三分钟热度，灵感很多却难落地。',
+            advice: '开窍贵在“香而不散”。你的灵感是天赋，但落地才是能力；你的通透是优势，但持续才是力量。别让辛香耗尽了你的元气，记得把“窍”守住。'
+        }
+    };
+
+    function calculateResult() {
+        const answers = {};
+        let allAnswered = true;
+
+        for (let i = 1; i <= 10; i++) {
+            const qName = `q${i}`;
+            const selected = document.querySelector(`input[name="${qName}"]:checked`);
+            if (!selected) {
+                allAnswered = false;
+                break;
+            }
+            answers[qName] = selected.value;
+        }
+
+        if (!allAnswered) {
+            alert('请答完所有题目，掌柜才好为你抓药。');
+            return;
+        }
+
+        // 统计得分
+        const scores = {
+            '清热药': 0, '平肝息风药': 0, '补虚药': 0,
+            '解表药': 0, '开窍药': 0, '祛风湿药': 0,
+            '活血化瘀药': 0, '温里药': 0
+        };
+
+        Object.values(answers).forEach(val => {
+            const types = scoreMap[val];
+            if (types.length === 1) {
+                scores[types[0]] += 2; // 主倾向分高
+            } else {
+                // 混合倾向，各给1分
+                scores[types[0]] += 1;
+                scores[types[1]] += 1;
+            }
+        });
+
+        // 找出最高分
+        let maxScore = -1;
+        let resultType = '';
+        for (const type in scores) {
+            if (scores[type] > maxScore) {
+                maxScore = scores[type];
+                resultType = type;
+            }
+        }
+
+        // 显示结果
+        showResult(resultType);
+    }
+
+    function showResult(type) {
+        const data = herbData[type];
+        document.getElementById('resType').innerText = data.title;
+        document.getElementById('resSubtitle').innerText = data.subtitle;
+        document.getElementById('resNature').innerText = data.nature;
+        document.getElementById('resPersonality').innerText = data.personality;
+        document.getElementById('resAdvice').innerText = data.advice;
+
+        document.getElementById('quiz').style.display = 'none';
+        document.getElementById('result').style.display = 'block';
+    }
+
+    function restartQuiz() {
+        document.getElementById('quizForm').reset();
+        document.getElementById('result').style.display = 'none';
+        document.getElementById('quiz').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
